@@ -28,7 +28,7 @@ class PaymentRequest {
    * @param string      $url            Full Merchant URL. A result will be sent to this address  request. The result is forwarded over customer browser    
    * @param string|null $merOrderNumber Order Number. In case it is not specified, it will be used  value $orderNumber It will appear on the bank statement.
    */
-  public function __construct (int $orderNumber, float $amount, int $currency, int $depositFlag, string $url, string $merOrderNumber = null) {
+  public function __construct (int $orderNumber, float $amount, int $currency, int $depositFlag, string $url, string $merOrderNumber = null, $referenceNumber = null) {
     $this->params['MERCHANTNUMBER'] = "";
     $this->params['OPERATION'] = 'CREATE_ORDER';
     $this->params['ORDERNUMBER'] = $orderNumber;
@@ -41,6 +41,10 @@ class PaymentRequest {
     }
 
     $this->params['URL'] = $url;
+
+    if (isset($referenceNumber)) {
+        $this->params['REFERENCENUMBER'] = $referenceNumber;
+    }
   }
 
   /**
