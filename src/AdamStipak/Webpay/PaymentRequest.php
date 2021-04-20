@@ -18,16 +18,17 @@ class PaymentRequest {
   /** @var array */
   private $params = [];
 
-  /**
-   * Payment Requester
-   * 
-   * @param int         $orderNumber    Payments number - must be in each request from trader unique. 
-   * @param float       $amount         Price to pay
-   * @param int         $currency       Currency code ISO 4217
-   * @param int         $depositFlag    Request Indicates whether the payment is to be paid automatically. Allowed values: 0 = no immediate payment required 1 = payment is required
-   * @param string      $url            Full Merchant URL. A result will be sent to this address  request. The result is forwarded over customer browser    
-   * @param string|null $merOrderNumber Order Number. In case it is not specified, it will be used  value $orderNumber It will appear on the bank statement.
-   */
+    /**
+     * Payment Requester
+     *
+     * @param int $orderNumber Payments number - must be in each request from trader unique.
+     * @param float $amount Price to pay
+     * @param int $currency Currency code ISO 4217
+     * @param int $depositFlag Request Indicates whether the payment is to be paid automatically. Allowed values: 0 = no immediate payment required 1 = payment is required
+     * @param string $url Full Merchant URL. A result will be sent to this address  request. The result is forwarded over customer browser
+     * @param string|null $merOrderNumber Order Number. In case it is not specified, it will be used  value $orderNumber It will appear on the bank statement.
+     * @param string|null $referenceNumber
+     */
   public function __construct (int $orderNumber, float $amount, int $currency, int $depositFlag, string $url, string $merOrderNumber = null, $referenceNumber = null) {
     $this->params['MERCHANTNUMBER'] = "";
     $this->params['OPERATION'] = 'CREATE_ORDER';
@@ -45,6 +46,11 @@ class PaymentRequest {
     if (isset($referenceNumber)) {
         $this->params['REFERENCENUMBER'] = $referenceNumber;
     }
+  }
+
+  public function addCustomParam(string $paramName, string $paramValue)
+  {
+      $this->params[$paramName] = $paramValue;
   }
 
   /**
